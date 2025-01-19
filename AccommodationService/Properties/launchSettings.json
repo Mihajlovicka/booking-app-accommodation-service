@@ -5,10 +5,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__Database": "ConnectionStrings__Database"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5246"
+      "applicationUrl": "http://localhost:5004"
     },
     "https": {
       "commandName": "Project",
