@@ -34,7 +34,6 @@ builder.Services.AddKafkaServices(builder.Configuration);
 builder.Services.AddCustomServices();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
 builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true
 );
