@@ -1,6 +1,8 @@
-﻿namespace AccommodationService.Repository.Contract;
+﻿using AccommodationService.Model.Entity;
 
-public interface IUserRepository
+namespace AccommodationService.Repository.Contract;
+
+public interface IUserRepository : ICrudRepository<User>
 {
-    
+    Task<User?> GetByUsernameAsync(string username);
 }
