@@ -1,13 +1,16 @@
 ﻿using AccommodationService.Model.Entity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccommodationService.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options)
-    : IdentityDbContext<User, IdentityRole<int>, int>(options)
+    : DbContext(options)
 {
+    
+    public AppDbContext() : this(new DbContextOptions<AppDbContext>())
+    {
+    }
+    
     public DbSet<Accommodation> Accommodations { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Equipment> Equipments { get; set; }
@@ -71,7 +74,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
             .HasForeignKey(a => a.AddressId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Configure the many-to-many relationship between Accommodation and Equipment
         modelBuilder.Entity<Accommodation>()
             .HasMany(a => a.Equipment)
             .WithMany(e => e.Accommodations)

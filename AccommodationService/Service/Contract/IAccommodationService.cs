@@ -2,5 +2,5 @@
 
 public interface IAccommodationService
 {
-    Task Save(Accommodation accommodation);
+    Task Save(Accommodation accommodation, string name);
 }

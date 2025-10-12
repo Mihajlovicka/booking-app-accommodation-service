@@ -1,8 +1,10 @@
 ﻿using AccommodationService.Mapper;
 using AccommodationService.Mapper.AccommodationMapper;
 using AccommodationService.Mapper.EquipmentMapper;
+using AccommodationService.Mapper.UserMapper;
 using AccommodationService.Model.Dto;
 using AccommodationService.Model.Entity;
+using AccommodationService.Model.Messages;
 using AccommodationService.Repository.Contract;
 using AccommodationService.Repository.Implementation;
 using AccommodationService.Service.Contract;
@@ -17,7 +19,6 @@ public static class ServiceExtensions
         // Scoped services registration
         services.AddScoped<IAccommodationService, Service.Implementation.AccommodationService>();
         services.AddScoped<IEquipmentService, EquipmentService>();
-        services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IUserService, UserService>();
 
         // Mapper-related scoped services
@@ -25,6 +26,7 @@ public static class ServiceExtensions
         services.AddScoped<IBaseMapper<EquipmentDto, Equipment>, EquipmentDtoToEquipmentMapper>();
         services.AddScoped<IBaseMapper<CreateAccommodationDto, Accommodation>, CreateAccommodationDtoToAccommodationMapper>();
         services.AddScoped<IBaseMapper<AddressDto, Address>, AddressDtoToAddressMapper>();
+        services.AddScoped<IBaseMapper<UserDto, User>, UserDtoToUserMapper>();
         
         // Repository-related scoped services
         services.AddScoped<IRepositoryManager, RepositoryManager>();

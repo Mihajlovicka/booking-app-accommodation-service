@@ -2,10 +2,7 @@ using AccommodationService.Data;
 using AccommodationService.Extensions;
 using AccommodationService.Filters;
 using AccommodationService.Middlewares;
-using AccommodationService.Model.Entity;
-using AccommodationService.Model.Settings;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,10 +35,6 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true
 );
 
-builder.Services.AddIdentity<User, IdentityRole<int>>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
-
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilterAttribute>();
@@ -56,6 +49,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 builder.AddAuthenticationAndAuthorization();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 52428800; // 50MB
+});
 
 var app = builder.Build();
 
@@ -74,7 +72,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseCors(CorsExtensions.GetCorsPolicyName());
-
 
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docker")
 {
@@ -98,6 +95,8 @@ app.UseExceptionHandler(builder =>
 });
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<UserContextMiddleware>();
 
 app.MapControllers();
 
