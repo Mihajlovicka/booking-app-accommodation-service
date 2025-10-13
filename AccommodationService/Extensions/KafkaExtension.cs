@@ -23,11 +23,10 @@ public static class KafkaExtensions
         {
             var logger = provider.GetRequiredService<ILogger<ConsumerService>>();
             var consumerConfig = provider.GetRequiredService<IOptions<ConsumerConfig>>();
-            var repositoryManager = provider.GetRequiredService<IRepositoryManager>();
-            var mapperManager = provider.GetRequiredService<IMapperManager>(); 
+            var scopeFactory = provider.GetRequiredService<IServiceScopeFactory>();
             var topic = KafkaTopic.UserCreated;
 
-            return new ConsumerService(logger, consumerConfig, topic, repositoryManager, mapperManager);
+            return new ConsumerService(logger, consumerConfig, topic, scopeFactory);
         });
 
         return services;

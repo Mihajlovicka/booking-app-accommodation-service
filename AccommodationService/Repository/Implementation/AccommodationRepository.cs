@@ -13,4 +13,22 @@ public class AccommodationRepository(AppDbContext context)
         return await _dbSet.AnyAsync(predicate);
     }
 
+    public async Task<IEnumerable<Accommodation>> GetAllByOwnerIdAsync(int ownerId)
+    {
+        return await _dbSet.Where(a => a.OwnerId == ownerId)
+        .Include(a => a.Address)
+        .Include(a => a.Pictures)
+        .Include(a => a.Equipment)
+        .ToListAsync();
+    }
+
+    public async Task<Accommodation?> GetByExternalIdAsync(string externalId)
+    {
+        return await _dbSet
+            .Include(a => a.Address)
+            .Include(a => a.Pictures)
+            .Include(a => a.Equipment)
+            .FirstOrDefaultAsync(a => a.ExternalId.ToString() == externalId);
+    }
+
 }

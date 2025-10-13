@@ -16,6 +16,8 @@ public class CreateAccommodationDtoToAccommodationMapper(
             Description = source.Description,
             MinNumberOfGuests = source.MinNumberOfGuests,
             MaxNumberOfGuests = source.MaxNumberOfGuests,
+            ExternalId = Guid.NewGuid(),
+            PriceType = PriceType.PerUnit,
             Active = true,
             Address = await addressDtoToAddressMapper.Map(source.Address),
             Equipment = (await Task.WhenAll(
