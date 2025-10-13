@@ -40,13 +40,17 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<ValidationFilterAttribute>();
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
-                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")))
-            .EnableSensitiveDataLogging()  // Logs sensitive data for better debugging
-            .LogTo(Console.WriteLine, LogLevel.Information)  // Logs to console
-);
-
+builder.Services.AddDbContext<AppDbContext>(option =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException(
+            "Connection string 'DefaultConnection' is null or empty."
+        );
+    }
+    option.UseMySQL(connectionString);
+});
 
 builder.AddAuthenticationAndAuthorization();
 
@@ -96,14 +100,6 @@ app.UseExceptionHandler(builder =>
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<UserContextMiddleware>();
-
 app.MapControllers();
 
 app.Run();
-
-
-namespace AccommodationService
-{
-    public partial class Program { } 
-}

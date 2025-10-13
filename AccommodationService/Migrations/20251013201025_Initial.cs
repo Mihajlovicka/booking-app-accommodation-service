@@ -1,91 +1,83 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace AccommodationService.Migrations
 {
     /// <inheritdoc />
-    public partial class InitMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "addresses",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    street_number = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    street_name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    city = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    post_number = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    street_number = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    street_name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    city = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    post_number = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     country = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_addresses", x => x.id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "equipment",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_equipment", x => x.id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    username = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    external_id = table.Column<Guid>(type: "char(36)", maxLength: 36, nullable: false, collation: "ascii_general_ci"),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    username = table.Column<string>(type: "longtext", nullable: false),
+                    external_id = table.Column<Guid>(type: "char(36)", maxLength: 36, nullable: false),
                     status = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Accommodations",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    external_id = table.Column<Guid>(type: "char(36)", maxLength: 36, nullable: false, collation: "ascii_general_ci"),
-                    name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    external_id = table.Column<Guid>(type: "char(36)", maxLength: 36, nullable: false),
+                    name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     owner_id = table.Column<int>(type: "int", nullable: false),
                     address_id = table.Column<int>(type: "int", nullable: false),
                     min_number_of_guests = table.Column<int>(type: "int", nullable: true),
                     max_number_of_guests = table.Column<int>(type: "int", nullable: true),
-                    status = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    status = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PriceType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,7 +95,7 @@ namespace AccommodationService.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AccommodationEquipments",
@@ -128,16 +120,15 @@ namespace AccommodationService.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Picture",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    url = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    url = table.Column<string>(type: "longtext", nullable: false),
                     accommodation_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -150,7 +141,7 @@ namespace AccommodationService.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccommodationEquipments_EquipmentId",
