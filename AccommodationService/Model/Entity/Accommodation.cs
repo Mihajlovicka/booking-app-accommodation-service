@@ -47,6 +47,8 @@ public class Accommodation
     public bool Active { get; set; } = true;
     
     public IList<Equipment> Equipment { get; set; }
-    
+
     public IList<Picture> Pictures { get; set; } = new List<Picture>();
+    
+    public PriceType PriceType { get; set; }
 }

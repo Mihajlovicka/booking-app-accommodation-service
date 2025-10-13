@@ -13,20 +13,17 @@ public class ConsumerService : BackgroundService
     private readonly ILogger<ConsumerService> _logger;
     private readonly IConsumer<Ignore, string> _consumer;
     private readonly KafkaTopic _topicName;
-    private readonly IRepositoryManager _repositoryManager;
-    private readonly IMapperManager _mapperManager;
+    private readonly IServiceScopeFactory _scopeFactory;
 
     public ConsumerService(
         ILogger<ConsumerService> logger,
         IOptions<ConsumerConfig> config,
         KafkaTopic topicName,
-        IRepositoryManager repositoryManager,
-        IMapperManager mapperManager)
+        IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
         _topicName = topicName;
-        _repositoryManager = repositoryManager;
-        _mapperManager = mapperManager;
+        _scopeFactory = scopeFactory;
         _consumer = new ConsumerBuilder<Ignore, string>(config.Value).Build();
     }
 
@@ -40,6 +37,11 @@ public class ConsumerService : BackgroundService
             {
                 try
                 {
+                    using var scope = _scopeFactory.CreateScope();
+
+                    var _repositoryManager = scope.ServiceProvider.GetRequiredService<IRepositoryManager>();
+                    var _mapperManager = scope.ServiceProvider.GetRequiredService<IMapperManager>();
+
                     var consumeResult = _consumer.Consume(TimeSpan.FromSeconds(5));
                     if (consumeResult is null)
                         continue;

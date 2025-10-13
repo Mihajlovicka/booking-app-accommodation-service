@@ -6,4 +6,8 @@ namespace AccommodationService.Repository.Contract;
 public interface IAccommodationRepository : ICrudRepository<Accommodation>
 {
     Task<bool> ExistsAsync(Expression<Func<Accommodation, bool>> predicate);
+
+    Task<IEnumerable<Accommodation>> GetAllByOwnerIdAsync(int ownerId);
+
+    Task<Accommodation?> GetByExternalIdAsync(string externalId);
 }

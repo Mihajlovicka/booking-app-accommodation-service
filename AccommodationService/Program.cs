@@ -101,3 +101,9 @@ app.UseMiddleware<UserContextMiddleware>();
 app.MapControllers();
 
 app.Run();
+
+
+namespace AccommodationService
+{
+    public partial class Program { } 
+}

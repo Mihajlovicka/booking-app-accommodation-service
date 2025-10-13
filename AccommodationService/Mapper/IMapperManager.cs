@@ -10,4 +10,6 @@ public interface IMapperManager
     IBaseMapper<CreateAccommodationDto, Accommodation> CreateAccommodationDtoToAccommodationMapper { get; }
     IBaseMapper<AddressDto, Address> AddressDtoToAddressMapper { get; }
     IBaseMapper<UserDto, User> UserDtoToUserMapper { get; }
+    IBaseMapper<Accommodation, AccommodationDto> AccommodationToAccommodationDtoMapper { get; }
+    IBaseMapper<Accommodation, AccommodationCreatedDto> AccommodationToAccommodationCreatedDtoMapper  { get; }
 }

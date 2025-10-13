@@ -16,10 +16,15 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserContext, UserContext>();
+
         // Scoped services registration
         services.AddScoped<IAccommodationService, Service.Implementation.AccommodationService>();
         services.AddScoped<IEquipmentService, EquipmentService>();
         services.AddScoped<IUserService, UserService>();
+        
 
         // Mapper-related scoped services
         services.AddScoped<IMapperManager, MapperManager>();
@@ -27,13 +32,16 @@ public static class ServiceExtensions
         services.AddScoped<IBaseMapper<CreateAccommodationDto, Accommodation>, CreateAccommodationDtoToAccommodationMapper>();
         services.AddScoped<IBaseMapper<AddressDto, Address>, AddressDtoToAddressMapper>();
         services.AddScoped<IBaseMapper<UserDto, User>, UserDtoToUserMapper>();
+        services.AddScoped<IBaseMapper<Accommodation, AccommodationDto>, AccommodationToAccommodationDtoMapper>();
+        services.AddScoped<IBaseMapper<Accommodation, AccommodationCreatedDto>, AccommodationToAccommodationCreatedDtoMapper>();
         
         // Repository-related scoped services
         services.AddScoped<IRepositoryManager, RepositoryManager>();
-        services.AddScoped<IAccommodationRepository, AccommodationRepository>();
         services.AddScoped<IEquipmentRepository, EquipmentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<IAccommodationRepository, AccommodationRepository>();
+        
 
         return services;
     }

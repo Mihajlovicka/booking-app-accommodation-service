@@ -34,6 +34,7 @@ public class AccommodationController(
         }
     }
 
+    [Authorize(Roles = "HOST")]
     [HttpPost]
     public async Task<IActionResult> Save([FromBody] CreateAccommodationDto accommodation)
     {
@@ -48,12 +49,36 @@ public class AccommodationController(
         }
         catch (Exception exception)
         {
-             var errorResponse = new
+            var errorResponse = new
             {
                 exception.Message
             };
 
             return StatusCode(500, errorResponse);
         }
+    }
+
+    [Authorize(Roles = "HOST")]
+    [HttpGet("")]
+    public async Task<IActionResult> GetAllByUser()
+    {
+        return Ok(await accommodationService.GetAllByUser());
+    }
+
+    [Authorize(Roles = "HOST")]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var accommodations = await accommodationService.GetAllByUser();
+        var accommodation = accommodations.FirstOrDefault(a => a.Id == id);
+        return Ok(accommodation);
+    }
+
+    [Authorize(Roles = "HOST")]
+    [HttpPatch("{id}/price-type")]
+    public async Task<IActionResult> UpdatePriceType(string id, [FromBody] UpdatePriceTypeDto dto)
+    {
+        await accommodationService.UpdatePriceType(id, dto);
+        return NoContent();
     }
 }
