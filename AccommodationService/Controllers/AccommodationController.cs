@@ -1,6 +1,7 @@
 ﻿using AccommodationService.Mapper;
 using AccommodationService.Model.Dto;
 using AccommodationService.Service.Contract;
+using AccommodationService.Service.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,8 @@ namespace AccommodationService.Controllers;
 public class AccommodationController(
     IEquipmentService equipmentService,
     IAccommodationService accommodationService,
-    IMapperManager mapperManager
+    IMapperManager mapperManager,
+    IUserContext userContext
     ) : ControllerBase
 {
     [HttpGet("equipment")]
@@ -41,9 +43,8 @@ public class AccommodationController(
         try
         {
 
-            var username = HttpContext.Items["name"]?.ToString() ?? "";
             await accommodationService.Save(
-                await mapperManager.CreateAccommodationDtoToAccommodationMapper.Map(accommodation), username);
+                await mapperManager.CreateAccommodationDtoToAccommodationMapper.Map(accommodation), userContext.Name);
 
             return Ok();
         }

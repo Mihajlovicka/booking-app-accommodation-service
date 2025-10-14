@@ -32,7 +32,7 @@ public class AccommodationControllerIntegrationTests
 
         var config = _factory.Services.GetRequiredService<IConfiguration>();
         KafkaBroker = config.GetValue<string>("KafkaConfig:Producer:BootstrapServers");
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "dummy-token");
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
 
 
     }
@@ -47,6 +47,7 @@ public class AccommodationControllerIntegrationTests
     [Test]
     public async Task GetAllByUser_WithHostToken_ReturnsOkAndData()
     {
+
 
         var response = await _client.GetAsync("/api/accommodations");
         response.EnsureSuccessStatusCode();
