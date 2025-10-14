@@ -14,6 +14,7 @@ namespace AccommodationService.Tests
         private Mock<IEquipmentService> _mockEquipmentService;
         private Mock<IAccommodationService> _mockAccommodationService;
         private Mock<IMapperManager> _mockMapperManager;
+        private Mock<IUserContext> _userContext;
         private AccommodationController _controller;
 
         [SetUp]
@@ -22,11 +23,13 @@ namespace AccommodationService.Tests
             _mockEquipmentService = new Mock<IEquipmentService>();
             _mockAccommodationService = new Mock<IAccommodationService>();
             _mockMapperManager = new Mock<IMapperManager>();
+            _userContext = new Mock<IUserContext>();
 
             _controller = new AccommodationController(
                 _mockEquipmentService.Object,
                 _mockAccommodationService.Object,
-                _mockMapperManager.Object
+                _mockMapperManager.Object,
+                _userContext.Object
             );
 
             _controller.ControllerContext = new ControllerContext
@@ -84,6 +87,8 @@ namespace AccommodationService.Tests
             mapperMock.Setup(m => m.Map(dto)).ReturnsAsync(mappedEntity);
             _mockMapperManager.Setup(x => x.CreateAccommodationDtoToAccommodationMapper).Returns(mapperMock.Object);
 
+            _userContext.Setup(u => u.Name).Returns("testuser");
+
             _mockAccommodationService.Setup(x => x.Save(mappedEntity, "testuser"))
                 .Returns(Task.CompletedTask);
 
@@ -134,6 +139,8 @@ namespace AccommodationService.Tests
 
             _mockAccommodationService.Setup(x => x.Save(mappedEntity, "testuser"))
                 .ThrowsAsync(new System.Exception("Service error"));
+
+            _userContext.Setup(u => u.Name).Returns("testuser");
 
             var result = await _controller.Save(dto);
 
