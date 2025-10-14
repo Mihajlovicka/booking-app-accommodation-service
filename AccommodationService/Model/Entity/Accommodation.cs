@@ -12,6 +12,7 @@ public class Accommodation
     [Required]
     [MaxLength(36)]
     [Column("external_id")]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid ExternalId { get; set; }
 
     [Required]
@@ -38,7 +39,7 @@ public class Accommodation
     [Column("min_number_of_guests")]
     public int? MinNumberOfGuests { get; set; }
 
-    [Range(1, int.MaxValue)]
+    [Range(0, int.MaxValue)]
     [Column("max_number_of_guests")]
     public int? MaxNumberOfGuests { get; set; }
 
