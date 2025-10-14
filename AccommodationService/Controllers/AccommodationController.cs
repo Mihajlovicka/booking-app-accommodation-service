@@ -71,7 +71,15 @@ public class AccommodationController(
     public async Task<IActionResult> GetById(string id)
     {
         var accommodations = await accommodationService.GetAllByUser();
-        var accommodation = accommodations.FirstOrDefault(a => a.Id == id);
+        var accommodation = accommodations.Single(a => a.Id == id);
+        return Ok(accommodation);
+    }
+    
+    [Authorize(Roles="GUEST")]
+    [HttpGet("{id}/info")]
+    public async Task<IActionResult> GetByIdInfo(string id)
+    {
+        var accommodation = await accommodationService.GetById(id);
         return Ok(accommodation);
     }
 

@@ -59,5 +59,13 @@ public class AccommodationService(
         var accommodationDto = mapper.AccommodationToAccommodationCreatedDtoMapper.Map(accommodation);
         _ = producerService.ProduceAsync(KafkaTopic.AccommodationCreated.ToString(), accommodationDto);
     }
-    
+
+    public async Task<AccommodationDto> GetById(string accommodationId)
+    {
+        var accommodation = await repositoryManager.AccommodationRepository.GetByExternalIdAsync(accommodationId);
+
+        if (accommodation is null) throw new Exception("Accommodation does not exist!");
+
+        return await mapper.AccommodationToAccommodationDtoMapper.Map(accommodation);
+    }
 }
