@@ -24,6 +24,7 @@ public class CreateAccommodationDtoToAccommodationMapper(
                 source.Equipment.Select(equipmentDtoToEquipmentMapper.Map)
             )).ToList(),
             Pictures = source.PictureUrls.Select(url => new Picture { Url = url }).ToList(),
+            AutomaticReservation = source.AutomaticReservation
         };
     }
 }

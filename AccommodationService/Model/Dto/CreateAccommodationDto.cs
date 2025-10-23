@@ -8,5 +8,6 @@ public class CreateAccommodationDto
     public IList<EquipmentDto> Equipment { get; set; }
     public int? MinNumberOfGuests { get; set; }
     public int? MaxNumberOfGuests { get; set; }
-    public List<string> PictureUrls { get; set; } 
+    public List<string> PictureUrls { get; set; }
+    public bool AutomaticReservation { get; set; }
 }

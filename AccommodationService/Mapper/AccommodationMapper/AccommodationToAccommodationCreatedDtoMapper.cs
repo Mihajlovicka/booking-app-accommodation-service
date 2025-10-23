@@ -20,6 +20,7 @@ public class AccommodationToAccommodationCreatedDtoMapper(
             MinNumberOfGuests = source.MinNumberOfGuests,
             MaxNumberOfGuests = source.MaxNumberOfGuests,
             Pictures = source.Pictures.Select(picture => picture.Url).ToList(),
+            AutomaticReservation = source.AutomaticReservation
         };
     }
 }
