@@ -1,5 +1,3 @@
-using AccommodationService.Model.Entity;
-
 namespace AccommodationService.Model.Dto;
 
 public class AccommodationDto

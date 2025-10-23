@@ -13,4 +13,5 @@ public class AccommodationCreatedDto
     public int? MinNumberOfGuests { get; set; }
     public int? MaxNumberOfGuests { get; set; }
     public List<string> Pictures { get; set; }
+    public bool AutomaticReservation { get; set; }
 }

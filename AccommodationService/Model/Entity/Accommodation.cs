@@ -42,6 +42,10 @@ public class Accommodation
     [Range(0, int.MaxValue)]
     [Column("max_number_of_guests")]
     public int? MaxNumberOfGuests { get; set; }
+    
+    [Required]
+    [Column]
+    public bool AutomaticReservation { get; set; } = false;
 
     [Required]
     [Column("status")]
