@@ -24,9 +24,14 @@ public static class KafkaExtensions
             var logger = provider.GetRequiredService<ILogger<ConsumerService>>();
             var consumerConfig = provider.GetRequiredService<IOptions<ConsumerConfig>>();
             var scopeFactory = provider.GetRequiredService<IServiceScopeFactory>();
-            var topic = KafkaTopic.UserCreated;
+            var topics = new[]
+            {
+                KafkaTopic.AccommodationCreated,
+                KafkaTopic.UserCreated,
+                KafkaTopic.DeleteUser
+            };
 
-            return new ConsumerService(logger, consumerConfig, topic, scopeFactory);
+            return new ConsumerService(logger, consumerConfig, topics, scopeFactory);
         });
 
         return services;

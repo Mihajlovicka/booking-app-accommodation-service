@@ -31,4 +31,17 @@ public class AccommodationRepository(AppDbContext context)
             .FirstOrDefaultAsync(a => a.ExternalId.ToString() == externalId);
     }
 
+    public async Task<int> DeleteAllByOwner(int id)
+    {
+        var accommodations = await _dbSet
+            .Where(a => a.OwnerId == id)
+            .ToListAsync();
+
+        if (accommodations.Count == 0)
+            return 0;
+
+        _dbSet.RemoveRange(accommodations);
+        return await _context.SaveChangesAsync();
+    }
+
 }
