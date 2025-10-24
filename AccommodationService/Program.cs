@@ -15,14 +15,14 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var serviceName = Environment.GetEnvironmentVariable("SERVICE_NAME") ?? "unknown-service";
 
-if (environment == "Docker")
+if (environment == "Docker" || environment == "Testing")
 {
     builder.Configuration.AddJsonFile(
         "appsettings.Docker.json",
         optional: true,
         reloadOnChange: true
     );
-    builder.AddMonitoring();
+    if(environment == "Docker") builder.AddMonitoring();
 
 }
 builder.Configuration.AddEnvironmentVariables();
@@ -101,7 +101,7 @@ app.Use(async (context, next) =>
                                new KeyValuePair<string, object?>("timestamp", timestamp));
 });
 
-if (!app.Environment.IsEnvironment("Testing"))
+if (!app.Environment.IsEnvironment("Testing") && environment == "Docker")
 {
     app.UseSerilogRequestLogging(options =>
     {

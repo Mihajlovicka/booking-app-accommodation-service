@@ -5,7 +5,8 @@ namespace AccommodationService.Service.MessagingService;
 public static class TopicTypeMap
 {
     public static readonly Dictionary<KafkaTopic, Type> Map =
-        new() { { KafkaTopic.UserCreated, typeof(UserDto) } , { KafkaTopic.AccommodationCreated, typeof(AccommodationCreatedDto)}};
+        new() { { KafkaTopic.UserCreated, typeof(UserDto) } , { KafkaTopic.AccommodationCreated, typeof(AccommodationCreatedDto)},
+        { KafkaTopic.DeleteUser, typeof(UserDto) }};
 
 
 }
@@ -13,5 +14,6 @@ public static class TopicTypeMap
 public enum KafkaTopic
 {
     UserCreated,
-    AccommodationCreated
+    AccommodationCreated,
+    DeleteUser
 }

@@ -9,5 +9,7 @@ public interface IAccommodationRepository : ICrudRepository<Accommodation>
 
     Task<IEnumerable<Accommodation>> GetAllByOwnerIdAsync(int ownerId);
 
+    Task<int> DeleteAllByOwner(int ownerId);
+
     Task<Accommodation?> GetByExternalIdAsync(string externalId);
 }

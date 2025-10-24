@@ -54,7 +54,7 @@ internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 // Add the main project's appsettings.json and appsettings.Docker.json
                 configBuilder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
-                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Docker")
+                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Docker"   || Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Testing")
                 {
                     configBuilder.AddJsonFile(
                         "appsettings.Docker.json",

@@ -6,16 +6,16 @@ namespace AccommodationService.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options)
     : DbContext(options)
 {
-    
+
     public AppDbContext() : this(new DbContextOptions<AppDbContext>())
     {
     }
-    
+
     public DbSet<Accommodation> Accommodations { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Equipment> Equipments { get; set; }
     public DbSet<User> Users { get; set; }
-    
+
     public void SeedData()
     {
         if (!Equipments.Any())
@@ -47,7 +47,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
             Equipments.Add(new Equipment { Name = "Cleaning Supplies" });
             Equipments.Add(new Equipment { Name = "Treadmill" });
             Equipments.Add(new Equipment { Name = "Projector" });
-            
+
             // Add more items here if needed
             SaveChanges();
         }
@@ -56,29 +56,35 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        modelBuilder.Entity<Picture>()
-            .HasOne(p => p.Accommodation)
-            .WithMany(a => a.Pictures)
-            .HasForeignKey(p => p.AccommodationId);
 
+        // 🏠 Accommodation → Owner (User)
         modelBuilder.Entity<Accommodation>()
             .HasOne(a => a.Owner)
             .WithMany()
             .HasForeignKey(a => a.OwnerId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // 📍 Accommodation → Address
         modelBuilder.Entity<Accommodation>()
             .HasOne(a => a.Address)
             .WithMany()
             .HasForeignKey(a => a.AddressId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
+        // 🧰 Accommodation ↔ Equipment (many-to-many)
         modelBuilder.Entity<Accommodation>()
             .HasMany(a => a.Equipment)
             .WithMany(e => e.Accommodations)
             .UsingEntity(j => j.ToTable("AccommodationEquipments"));
 
+        // 🖼️ Accommodation → Picture (one-to-many, cascade delete)
+        modelBuilder.Entity<Picture>()
+            .HasOne(p => p.Accommodation)
+            .WithMany(a => a.Pictures)
+            .HasForeignKey(p => p.AccommodationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // 🔑 Unique indexes
         modelBuilder.Entity<User>()
             .HasIndex(u => u.ExternalId)
             .IsUnique();
@@ -90,5 +96,4 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
             .HasIndex(e => e.Name)
             .IsUnique();
     }
-
 }
